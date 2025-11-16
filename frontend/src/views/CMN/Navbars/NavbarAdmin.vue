@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
 
       <!-- Logo -->
-      <router-link to="/" class="flex items-center gap-3">
+      <router-link to="/admin" class="flex items-center gap-3">
         <img
           src="@/public/images/logo.png"
           class="h-8 w-auto invert"

@@ -12,6 +12,11 @@ class CategoryController extends Controller
         return Category::with('children.children')->whereNull('parent_id')->get();
     }
 
+    public function show(Category $category)
+    {
+        return $category->load('children.children');
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([

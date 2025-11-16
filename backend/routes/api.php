@@ -10,6 +10,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::apiResource('products', ProductController::class);
+    Route::get('/products/by-category/{id}', [ProductController::class, 'showByCategory']);
     Route::apiResource('categories', CategoryController::class);
     Route::post('/logout', [AuthController::class, 'logout']);
 });

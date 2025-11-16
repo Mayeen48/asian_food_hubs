@@ -24,6 +24,13 @@ class ProductController extends Controller
         return $query->orderBy('created_at', 'desc')->paginate($perPage);
     }
 
+    public function showByCategory($categoryId)
+    {
+        return \App\Models\Category::with([
+            'children.products'
+        ])->findOrFail($categoryId);
+    }
+
 
    public function store(Request $request)
     {
@@ -124,17 +131,6 @@ class ProductController extends Controller
             });
             return $cat;
         });
-        // return Category::with(['children.products' => function ($q) {
-        //     $q->select('id', 'sku', 'name', 'description', 'price','currency', 'unit', 'image','image_storage','sort_order', 'stock', 'category_id');
-        // }])->whereNull('parent_id')->get()->map(function ($cat) {
-        //     $cat->children->each(function ($sub) {
-        //         $sub->products->transform(function ($p) {
-        //             $p->price = (float)$p->price;
-        //             return $p;
-        //         });
-        //     });
-        //     return $cat;
-        // });
     }
 
 }
