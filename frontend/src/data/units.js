@@ -1,0 +1,21 @@
+export default [
+  { value: "piece", label: "Piece" },
+  { value: "box", label: "Box" },
+  { value: "pack", label: "Pack" },
+  { value: "kg", label: "Kilogram (kg)" },
+  { value: "gram", label: "Gram (g)" },
+  { value: "liter", label: "Liter (L)" },
+  { value: "ml", label: "Milliliter (ml)" },
+  { value: "dozen", label: "Dozen" },
+  { value: "pair", label: "Pair" },
+  { value: "set", label: "Set" },
+  { value: "bundle", label: "Bundle" },
+  { value: "carton", label: "Carton" },
+  { value: "bag", label: "Bag" },
+  { value: "bottle", label: "Bottle" },
+  { value: "can", label: "Can" },
+  { value: "jar", label: "Jar" },
+  { value: "meter", label: "Meter (m)" },
+  { value: "cm", label: "Centimeter (cm)" },
+  { value: "sqm", label: "Square Meter (m²)" }
+];
