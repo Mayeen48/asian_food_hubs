@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->string('currency')->default('AUD')->after('price');
-            $table->string('image_storage')->default('local')->after('image_url');
+            $table->string('image_storage')->default('local')->after('image');
         });
     }
 
