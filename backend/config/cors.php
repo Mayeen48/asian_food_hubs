@@ -12,15 +12,18 @@ $productionOrigins = [
     'https://www.asianfoodhubs.com',
     'https://api.asianfoodhubs.com',
 ];
+$allOrigins=array_merge($localOrigins, $productionOrigins);
+
 return [
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => env('APP_ENV') === 'local'
-        ? $localOrigins
-        : $productionOrigins,
+    // 'allowed_origins' => env('APP_ENV') === 'local'
+    //     ? $localOrigins
+    //     : (env('APP_ENV') === 'production' ? $productionOrigins : $allOrigins),
+    'allowed_origins' => $allOrigins,
 
     'allowed_origins_patterns' => [],
 
