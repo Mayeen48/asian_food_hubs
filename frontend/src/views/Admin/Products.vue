@@ -12,20 +12,6 @@
         class="border px-4 py-2 rounded w-full md:w-1/3 shadow-sm"
       />
 
-      <!-- Per Page Dropdown -->
-      <div class="flex items-center gap-2">
-        <span class="text-gray-600 text-sm">Per Page:</span>
-        <select
-          v-model="perPage"
-          @change="changePerPage"
-          class="border px-3 py-2 rounded shadow-sm"
-        >
-          <option v-for="n in [5,10,20,50,100]" :key="n" :value="n">
-            {{ n }}
-          </option>
-        </select>
-      </div>
-
       <!-- Create Btn -->
       <button 
         class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
@@ -78,12 +64,33 @@
         <table v-else class="w-full">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3">ID</th>
-              <th class="px-6 py-3">Image</th>
-              <th class="px-6 py-3">Name</th>
-              <th class="px-6 py-3">Price</th>
-              <th class="px-6 py-3">Category</th>
-              <th class="px-6 py-3">Actions</th>
+              <th class="px-4 py-3 cursor-pointer whitespace-nowrap" @click="sort('id')">
+              SL
+              <span v-if="sortBy === 'id'">{{ sortDir === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+
+            <th class="px-4 py-3 whitespace-nowrap">Image</th>
+
+            <!-- NAME -->
+            <th class="px-4 py-3 cursor-pointer whitespace-nowrap" @click="sort('name')">
+              Name
+              <span v-if="sortBy === 'name'">{{ sortDir === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+
+            <!-- PRICE -->
+            <th class="px-4 py-3 cursor-pointer whitespace-nowrap" @click="sort('price')">
+              Price
+              <span v-if="sortBy === 'price'">{{ sortDir === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+
+            <!-- CATEGORY -->
+            <th class="px-4 py-3 cursor-pointer whitespace-nowrap" @click="sort('category_id')">
+              Category
+              <span v-if="sortBy === 'category_id'">{{ sortDir === 'asc' ? '↑' : '↓' }}</span>
+            </th>
+
+            <!-- ACTIONS -->
+            <th class="px-4 py-3 whitespace-nowrap">Actions</th>
             </tr>
           </thead>
 
@@ -117,37 +124,6 @@
           </tbody>
         </table>
       </div>
-
-      <!-- Pagination -->
-      <div class="flex justify-center gap-1 py-4 flex-wrap">
-        
-        <button 
-          :disabled="!products.prev_page_url"
-          @click="changePage(products.current_page - 1)"
-          class="px-4 py-2 border rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-
-        <button 
-          v-for="n in products.last_page"
-          :key="n"
-          @click="changePage(n)"
-          class="px-3 py-1 border rounded"
-          :class="products.current_page === n ? 'bg-blue-600 text-white' : ''"
-        >
-          {{ n }}
-        </button>
-
-        <button 
-          :disabled="!products.next_page_url"
-          @click="changePage(products.current_page + 1)"
-          class="px-4 py-2 border rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-
-      </div>
     </div>
 
     <!-- DELETE CONFIRMATION -->
@@ -163,7 +139,19 @@
         />
       </div>
     </div>
-
+    <!-- Pagination -->
+    <Pagination
+          v-if="products.data.length"
+          :currentPage="products.current_page"
+          :lastPage="products.last_page"
+          :perPage="perPage"
+          :perPageOptions="[5,10,20,50,100]"
+          :from="products.from"
+          :to="products.to"
+          :total="products.total"
+          @change="changePage"
+          @update:perPage="updatePerPage"
+        />
   </div>
 </template>
 
@@ -173,6 +161,7 @@ import axios from "axios"
 import CreateProductDialog from "@/views/Admin/Products/CreateProductDialog.vue"
 import ConfirmDelete from "@/views/CMN/ConfirmDelete.vue"
 import { useToast } from "@/views/CMN/useToast"
+import Pagination from "@/views/CMN/Pagination.vue";
 
 const { showToast } = useToast()
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
@@ -184,6 +173,9 @@ const search = ref("")
 const page = ref(1)
 const perPage = ref(10)
 const loading = ref(false)
+const sortBy = ref("id");
+const sortDir = ref("asc");
+
 
 const showProductForm = ref(false)
 const editProductForm = ref(false)
@@ -266,6 +258,23 @@ function debouncedSearch() {
     page.value = 1
     fetchProducts()
   }, 400)
+}
+/* -----------------------
+  SORTING
+----------------------- */
+function sort(column) {
+  if (sortBy.value === column) {
+    sortDir.value = sortDir.value === "asc" ? "desc" : "asc";
+  } else {
+    sortBy.value = column;
+    sortDir.value = "asc";
+  }
+  fetchProducts();
+}
+function updatePerPage(n) {
+  perPage.value = n;
+  page.value = 1;
+  fetchProducts();
 }
 
 onMounted(() => {

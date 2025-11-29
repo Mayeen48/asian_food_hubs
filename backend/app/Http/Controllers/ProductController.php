@@ -9,20 +9,47 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
 
+    // public function index(Request $request)
+    // {
+    //     $query = Product::with(['category.parent']);
+
+    //     if ($request->search) {
+    //         $search = $request->search;
+    //         $query->where('name', 'LIKE', "%$search%")
+    //             ->orWhere('sku', 'LIKE', "%$search%")
+    //             ->orWhere('price', 'LIKE', "%$search%");
+    //     }
+
+    //     $perPage = $request->per_page ?? 10;
+
+    //     return $query->orderBy('created_at', 'desc')->paginate($perPage);
+    // }
+
     public function index(Request $request)
     {
-        $query = Product::with(['category.parent']);
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search');
+        $sortBy = $request->input('sort_by', 'id');
+        $sortDir = $request->input('sort_dir', 'asc'); // asc | desc
 
-        if ($request->search) {
-            $search = $request->search;
+        $query = Product::with('category');
+
+        if ($search) {
             $query->where('name', 'LIKE', "%$search%")
-                ->orWhere('sku', 'LIKE', "%$search%");
+            ->orWhere('sku', 'LIKE', "%$search%")
+            ->orWhere('price', 'LIKE', "%$search%");
         }
 
-        $perPage = $request->per_page ?? 10;
+        // Safe sort fields
+        $allowedSorts = ['id', 'name', 'price', 'category_id'];
 
-        return $query->orderBy('created_at', 'desc')->paginate($perPage);
+        if (in_array($sortBy, $allowedSorts)) {
+            $query->orderBy($sortBy, $sortDir);
+        }
+
+        return $query->paginate($perPage);
     }
+
 
     public function showByCategory($categoryId)
     {

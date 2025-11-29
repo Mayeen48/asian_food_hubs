@@ -34,7 +34,7 @@
 
     <!-- PRODUCTS FOR SELECTED CATEGORY -->
     <div v-if="loadingProducts" class="py-10 text-center text-gray-500">
-      <Loader />
+      Loading products...
     </div>
 
     <div v-else-if="activeCategoryData">
@@ -124,7 +124,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
-import Loader from "@/views/CMN/Loader.vue"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 

@@ -3,9 +3,13 @@
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
 
       <!-- Logo -->
-      <router-link to="/admin" class="flex items-center gap-3">
+      <router-link 
+        to="/admin" 
+        class="flex items-center gap-3"
+        @click="closeMenu"
+      >
         <img
-          src="@/public/images/logo.png"
+          src="/images/logo.png"
           class="h-8 w-auto invert"
           alt="Admin Logo"
         />
@@ -14,10 +18,8 @@
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center gap-6">
-        <!-- <router-link class="admin-link" to="/admin/products">Products</router-link>
-        <router-link class="admin-link" to="/admin/categories">Categories</router-link> -->
 
-        <!-- If logged in show Logout ELSE Login -->
+        <!-- LOGIN vs LOGOUT -->
         <button
           v-if="isLoggedIn"
           @click="logout"
@@ -44,10 +46,7 @@
     <!-- Mobile Menu -->
     <div v-if="open" class="md:hidden bg-gray-800 px-4 pb-4">
 
-      <!-- <router-link class="mobile-link" to="/admin/products">Products</router-link>
-      <router-link class="mobile-link" to="/admin/categories">Categories</router-link> -->
-
-      <!-- Login / Logout in Mobile -->
+      <!-- LOGIN / LOGOUT -->
       <button
         v-if="isLoggedIn"
         @click="logout"
@@ -60,6 +59,7 @@
         v-else
         to="/login"
         class="w-full block py-2 text-blue-400 font-semibold"
+        @click="closeMenu"
       >
         Admin Login
       </router-link>
@@ -75,17 +75,26 @@ import axios from "axios"
 const router = useRouter()
 const open = ref(false)
 
-// 🔥 Check if logged in
-const isLoggedIn = computed(() => !!localStorage.getItem("ec_token"))
+// 🔍 Auto-check login status
+const isLoggedIn = computed(() => {
+  return !!localStorage.getItem("ec_token")
+})
 
+// 🔒 Logout handler
 async function logout() {
-    console.log("Is Admin Logged In:", isLoggedIn)
+  closeMenu()
+
   try {
     await axios.post("/logout")
   } catch (_) {}
 
   localStorage.removeItem("ec_token")
   router.push("/login")
+}
+
+// 📌 Close mobile menu when clicking anything
+function closeMenu() {
+  open.value = false
 }
 </script>
 

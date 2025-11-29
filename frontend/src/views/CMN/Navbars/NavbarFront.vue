@@ -3,9 +3,9 @@
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
 
       <!-- Logo -->
-      <router-link to="/" class="flex items-center gap-3">
+      <router-link to="/" class="flex items-center gap-3" @click="closeMenu">
         <img
-          src="@/public/images/logo.png"
+          src="/images/logo.png"
           class="h-10 w-auto object-contain"
           alt="Asian Food Hubs Logo"
         />
@@ -18,8 +18,6 @@
       <div class="hidden md:flex items-center gap-6">
         <router-link to="/" class="nav-link">Home</router-link>
         <router-link to="/catalog" class="nav-link">Products</router-link>
-        <!-- <router-link to="/about" class="nav-link">About</router-link>
-        <router-link to="/contact" class="nav-link">Contact</router-link> -->
 
         <router-link
           to="/login"
@@ -43,11 +41,15 @@
       v-if="open"
       class="md:hidden bg-white px-4 pb-4 border-t"
     >
-      <router-link to="/" class="mobile-link">Home</router-link>
-      <router-link to="/catalog" class="mobile-link">Products</router-link>
-      <router-link to="/about" class="mobile-link">About</router-link>
-      <router-link to="/contact" class="mobile-link">Contact</router-link>
-      <router-link to="/login" class="mobile-link text-blue-600 font-semibold">
+      <router-link to="/" class="mobile-link" @click="closeMenu">Home</router-link>
+      <router-link to="/catalog" class="mobile-link" @click="closeMenu">Products</router-link>
+      <router-link to="/contact" class="mobile-link" @click="closeMenu">Contact</router-link>
+
+      <router-link
+        to="/login"
+        class="mobile-link text-blue-600 font-semibold"
+        @click="closeMenu"
+      >
         Admin Login
       </router-link>
     </div>
@@ -57,6 +59,11 @@
 <script setup lang="ts">
 import { ref } from "vue"
 const open = ref(false)
+
+// Auto-close menu
+function closeMenu() {
+  open.value = false
+}
 </script>
 
 <style scoped>
