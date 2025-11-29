@@ -195,6 +195,8 @@ async function fetchProducts() {
         page: page.value,
         per_page: perPage.value,
         search: search.value,
+        sort_by: sortBy.value,
+        sort_dir: sortDir.value,
       }
     })
     products.value = data
