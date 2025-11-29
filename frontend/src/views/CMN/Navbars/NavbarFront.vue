@@ -18,6 +18,7 @@
       <div class="hidden md:flex items-center gap-6">
         <router-link to="/" class="nav-link">Home</router-link>
         <router-link to="/catalog" class="nav-link">Products</router-link>
+        <router-link to="/contact" class="nav-link">Contact</router-link>
 
         <router-link
           to="/login"
