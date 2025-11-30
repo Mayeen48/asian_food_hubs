@@ -16,7 +16,9 @@ class ProductController extends Controller
         $sortBy = $request->input('sort_by', 'id');
         $sortDir = $request->input('sort_dir', 'asc'); // asc | desc
 
-        $query = Product::with('category');
+        $query = Product::with('category', 'creator:id,name', 'updater:id,name');
+
+         // --- Search ---
 
         if ($search) {
             $query->where('name', 'LIKE', "%$search%")

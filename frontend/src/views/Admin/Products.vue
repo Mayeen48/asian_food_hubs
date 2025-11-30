@@ -88,6 +88,10 @@
               Category
               <span v-if="sortBy === 'category_id'">{{ sortDir === 'asc' ? '↑' : '↓' }}</span>
             </th>
+            <th class="px-4 py-3 cursor-pointer whitespace-nowrap" @click="sort('created_by')">
+              Creator
+              <span v-if="sortBy === 'created_by'">{{ sortDir === 'asc' ? '↑' : '↓' }}</span>
+            </th>
 
             <!-- ACTIONS -->
             <th class="px-4 py-3 whitespace-nowrap">Actions</th>
@@ -95,8 +99,10 @@
           </thead>
 
           <tbody class="divide-y">
-            <tr v-for="p in products.data" :key="p.id">
-              <td class="px-6 py-4">{{ p.id }}</td>
+            <tr v-for="(p, index) in products.data" :key="p.id">
+              <td class="px-6 py-4">
+                {{ (products.current_page - 1) * perPage + index + 1 }}
+              </td>
 
               <td class="px-6 py-4">
                 <img 
@@ -111,6 +117,7 @@
               <td class="px-6 py-4">
                 {{ p.category?.parent?.name ? p.category.parent.name + " / " + p.category.name : p.category?.name }}
               </td>
+              <td class="px-6 py-4">{{ p.creator?.name || '' }}</td>
 
               <td class="px-6 py-4">
                 <button @click="editProduct(p)" class="text-blue-500 hover:underline">

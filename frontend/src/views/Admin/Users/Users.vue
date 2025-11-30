@@ -61,8 +61,10 @@
         </thead>
 
         <tbody>
-          <tr v-for="u in users.data" :key="u.id" class="border-b">
-            <td class="px-4 py-3">{{ u.id }}</td>
+          <tr v-for="(u, index) in users.data" :key="u.id" class="border-b">
+            <td class="px-4 py-3">
+              {{ (users.current_page - 1) * perPage + index + 1 }}
+            </td>
             <td class="px-4 py-3">{{ u.name }}</td>
             <td class="px-4 py-3">{{ u.email }}</td>
             <td class="px-4 py-3">{{ u.created_at.slice(0, 10) }}</td>
