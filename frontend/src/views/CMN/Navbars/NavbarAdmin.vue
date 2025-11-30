@@ -18,6 +18,18 @@
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center gap-6">
+        <router-link
+          :to="{ name: 'users' }"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          User Management
+        </router-link>
+        <router-link
+          :to="{ name: 'change-password' }"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          Change Password
+        </router-link>
 
         <!-- LOGIN vs LOGOUT -->
         <button
@@ -45,6 +57,20 @@
 
     <!-- Mobile Menu -->
     <div v-if="open" class="md:hidden bg-gray-800 px-4 pb-4">
+      <router-link
+          :to="{ name: 'users' }"
+          class="w-full block py-2 text-blue-400 font-semibold"
+          @click="closeMenu"
+        >
+          User Management
+        </router-link>
+        <router-link
+          :to="{ name: 'change-password' }"
+          class="w-full block py-2 text-blue-400 font-semibold"
+          @click="closeMenu"
+        >
+          Change Password
+        </router-link>
 
       <!-- LOGIN / LOGOUT -->
       <button

@@ -24,3 +24,16 @@ const isAdmin = computed(() => {
 })
 </script>
 
+<style>
+.input-error {
+  border-color: #dc2626 !important;
+  background-color: #fee2e2 !important;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+</style>
+

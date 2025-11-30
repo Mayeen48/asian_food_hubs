@@ -3,6 +3,8 @@ import Catalog from '@/views/Users/Catalog.vue'
 import ContactUs from '@/views/Users/ContactUs.vue'
 import Admin from '@/views/Admin/Admin.vue'
 import Login from '@/views/Auth/Login.vue'
+import Users from '@/views/Admin/Users/Users.vue'
+import ChangePassword from '@/views/Admin/Users/ChangePassword.vue'
 
 const routes = [
   { path: '/', name: 'home', component: Catalog },
@@ -10,6 +12,8 @@ const routes = [
   { path: '/contact', name: 'contact', component: ContactUs },
   { path: '/login', name: 'login', component: Login },
   { path: '/admin', name: 'admin', component: Admin, meta: { requiresAuth: true } },
+  {path: '/admin/users',name: 'users', component: Users,meta: { requiresAuth: true }},
+{path: "/admin/change-password",name: "change-password", component: ChangePassword, meta: { requiresAuth: true }},
 ]
 
 const router = createRouter({
