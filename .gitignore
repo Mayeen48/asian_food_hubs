@@ -54,6 +54,7 @@ docker/*.log
 docker/*.sock
 docker/volumes/
 docker/data/
+docker/mysql/data/*
 
 # Docker-compose overrides
 docker-compose.override.yml
