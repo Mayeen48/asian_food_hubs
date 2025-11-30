@@ -24,6 +24,8 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:categories,id',
         ]);
+        $data['created_by'] = auth()->id();
+        $data['updated_by'] = auth()->id(); // first update = creator
         return Category::create($data);
     }
 
@@ -34,6 +36,7 @@ class CategoryController extends Controller
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:categories,id',
         ]);
+        $data['updated_by'] = auth()->id();
         $category->update($data);
         return $category;
     }

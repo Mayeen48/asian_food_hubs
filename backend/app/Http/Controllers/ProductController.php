@@ -9,22 +9,6 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
 
-    // public function index(Request $request)
-    // {
-    //     $query = Product::with(['category.parent']);
-
-    //     if ($request->search) {
-    //         $search = $request->search;
-    //         $query->where('name', 'LIKE', "%$search%")
-    //             ->orWhere('sku', 'LIKE', "%$search%")
-    //             ->orWhere('price', 'LIKE', "%$search%");
-    //     }
-
-    //     $perPage = $request->per_page ?? 10;
-
-    //     return $query->orderBy('created_at', 'desc')->paginate($perPage);
-    // }
-
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 10);
@@ -90,6 +74,8 @@ class ProductController extends Controller
             $path = $file->storeAs('products', $filename, 'public');
             $validated['image'] = '/storage/' . $path;
         }
+        $validated['created_by'] = auth()->id();
+        $validated['updated_by'] = auth()->id(); // first update = creator
 
         $product = Product::create($validated);
         return response()->json($product);
@@ -133,6 +119,7 @@ class ProductController extends Controller
             $path = $file->storeAs('products', $filename, 'public');
             $data['image'] = '/storage/' . $path;
         }
+        $data['updated_by'] = auth()->id();
 
         $product->update($data);
         return response()->json($product);

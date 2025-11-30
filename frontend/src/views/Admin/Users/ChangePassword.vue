@@ -10,7 +10,7 @@
             type="password"
             :class="['w-full px-3 py-2 rounded', fieldClass('old_password')]"
         />
-        <p v-if="errors.old_password" class="error-text">• {{ errors.old_password[0] }}</p>
+        <p v-if="errors?.old_password" class="error-text">• {{ errors.old_password[0] }}</p>
         </div>
 
         <div>
@@ -20,7 +20,7 @@
             type="password"
             :class="['w-full px-3 py-2 rounded', fieldClass('new_password')]"
         />
-        <p v-if="errors.new_password" class="error-text">• {{ errors.new_password[0] }}</p>
+        <p v-if="errors?.new_password" class="error-text">• {{ errors.new_password[0] }}</p>
         </div>
 
     </div>
@@ -48,18 +48,23 @@ const errors = ref({})
 const { showToast } = useToast()
 
 function fieldClass(field) {
-  return errors.value[field] ? "border input-error" : "border"
+  return errors.value && errors.value[field]
+    ? "border input-error"
+    : "border"
 }
 
 async function submit() {
   errors.value = {}
-
   try {
     await axios.post("/users/change-password", form.value)
     showToast("Password changed successfully", "success")
   } catch (err) {
     if (err.response?.status === 422) {
-      errors.value = err.response.data.errors
+        if (err.response.data.errors){
+            errors.value = err.response.data.errors
+        } else {
+            showToast(err.response.data.message, "error")
+        }
     } else {
       showToast("Old password incorrect", "error")
     }

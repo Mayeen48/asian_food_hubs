@@ -5,6 +5,8 @@
       <GlobalLoader />  <!-- Auto loader -->
       <NavbarFront v-if="!isAdmin" />
       <NavbarAdmin v-else />
+       <!-- Global Toast Component -->
+      <Toast />
       <router-view />
     </v-main>
   </v-app>
@@ -16,6 +18,7 @@ import NavbarFront from '@/views/CMN/Navbars/NavbarFront.vue'
 import NavbarAdmin from '@/views/CMN/Navbars/NavbarAdmin.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import Toast from '@/views/CMN/Toast.vue'
 
 const route = useRoute()
 

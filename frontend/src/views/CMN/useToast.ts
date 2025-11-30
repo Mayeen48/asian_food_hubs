@@ -1,24 +1,25 @@
-import { ref } from 'vue'
+// useToast.js (global singleton)
+import { ref } from "vue"
 
 const visible = ref(false)
-const message = ref('')
-const type = ref<'success' | 'error'>('success')
+const message = ref("")
+const type = ref("success")
 
 export function useToast() {
-  function showToast(msg: string, toastType: 'success' | 'error' = 'success') {
+  function showToast(msg, t = "info") {
     message.value = msg
-    type.value = toastType
+    type.value = t
     visible.value = true
 
     setTimeout(() => {
       visible.value = false
-    }, 3000)
+    }, 2500)
   }
 
   return {
     visible,
     message,
     type,
-    showToast,
+    showToast
   }
 }
