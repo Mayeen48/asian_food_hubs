@@ -39,9 +39,11 @@ class ProductController extends Controller
 
     public function showByCategory($categoryId)
     {
-        return \App\Models\Category::with([
-            'children.products'
-        ])->findOrFail($categoryId);
+        // Public endpoint: only expose published products and safe columns.
+        return \App\Models\Category::with(['children.products' => function ($q) {
+            $q->select('id', 'sku', 'name', 'description', 'price', 'currency', 'unit', 'image', 'image_storage', 'sort_order', 'stock', 'category_id')
+              ->where('published', 1);
+        }])->findOrFail($categoryId);
     }
 
 
